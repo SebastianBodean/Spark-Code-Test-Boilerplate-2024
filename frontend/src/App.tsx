@@ -24,6 +24,29 @@ function App() {
     fetchTodos()
   }, []);
 
+  //Implement it as a lambda expression- it will not be used anywhere else
+  const PostTodo = () => {
+    //Get the values from the input fields
+    //I assume there won't be any other fields with the same name- IDs would be better
+    const title = (document.getElementsByName("title")[0] as HTMLInputElement).value;
+    const description = (document.getElementsByName("description")[0]  as HTMLInputElement).value;
+    
+    // TODO: add validation here
+
+    //Send a post request to this address
+    // TODO: test that the todos are appended correctly
+    fetch('http://localhost:8080/', {
+      method: 'POST',
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({ 
+        key: title + description,
+        title: title,
+        description: description
+      })
+    })
+  }
+
+  //Test that PostTodo is called by the button with the correct parameters
   return (
     <div className="app">
       <header className="app-header">
@@ -44,7 +67,7 @@ function App() {
       <form>
         <input placeholder="Title" name="title" autoFocus={true} />
         <input placeholder="Description" name="description" />
-        <button>Add Todo</button>
+        <button onClick="PostTodo">Add Todo</button>
       </form>
     </div>
   );
